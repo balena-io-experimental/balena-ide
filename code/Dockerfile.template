@@ -11,7 +11,7 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 # Calling balena-cli from the code-server editor throws: "Pkg: FLAGS_MISMATCH"
 # See: https://github.com/vercel/pkg/issues/484
 # Fix is to unset NODE_OPTIONS env var
-COPY balena.sh /usr/bin/balena
+COPY bin/balena.sh /usr/bin/balena
 RUN chmod +x /usr/bin/balena
 RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-x64-standalone.zip && \
     unzip balena-cli-*-linux-x64-standalone.zip -d /opt

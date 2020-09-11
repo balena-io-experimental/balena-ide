@@ -16,24 +16,41 @@ function json_add_key_if_not_exist() {
 function json_create_file_if_not_exist() {
   local FILE="$1"
   if [[ ! -f "$FILE" ]]; then
-    mkdir -p $(dirname "$FILE")
     jq -n "{}" > "$FILE"
   fi
 }
 
-CODE_WORKSPACE=${CODE_WORKSPACE:-"/usr/src/projects"}
-CODE_SETTINGS=${CODE_SETTINGS:-"/usr/src/settings"}
-SETTINGS_FILE="$CODE_SETTINGS/User/settings.json"
+CODE_WORKSPACE_PATH=${CODE_WORKSPACE_PATH:-"/usr/src/projects"}
+CODE_SETTINGS_PATH=${CODE_SETTINGS_PATH:-"/usr/src/settings"}
+USER_SETTINGS_PATH="$CODE_SETTINGS_PATH/User"
+USER_SETTINGS_FILE="$USER_SETTINGS_PATH/settings.json"
+GIST_SETTINGS_PATH="$CODE_SETTINGS_PATH/gist"
 
-# AutoSave off --> impossible to use livepush without this
-# bash terminal --> for autocompletion
-json_create_file_if_not_exist "$SETTINGS_FILE"
-json_add_key_if_not_exist "$SETTINGS_FILE" "files.autoSave" "off"
-json_add_key_if_not_exist "$SETTINGS_FILE" "terminal.integrated.shell.linux" "/bin/bash"
+# Create settings directory
+mkdir -p "$USER_SETTINGS_PATH"
+
+# Download settings if gist provided
+if [[ -n CODE_SETTINGS_GIST ]]; then
+  echo "Downloading VSCode settings from gist: $CODE_SETTINGS_GIST"
+  rm -rf "$GIST_SETTINGS_PATH"
+  git clone "$CODE_SETTINGS_GIST" "$GIST_SETTINGS_PATH"
+
+  [[ -f "$GIST_SETTINGS_PATH/settings.json" ]] && cp "$GIST_SETTINGS_PATH/settings.json" "$USER_SETTINGS_PATH/settings.json"
+  [[ -f "$GIST_SETTINGS_PATH/keybindingsMac.json" ]] && cp "$GIST_SETTINGS_PATH/keybindingsMac.json" "$USER_SETTINGS_PATH/keybindings.json"
+  [[ -f "$GIST_SETTINGS_PATH/keybindings.json" ]] && cp "$GIST_SETTINGS_PATH/keybindings.json" "$USER_SETTINGS_PATH/keybindings.json"
+  # TODO: snippets and extensions!
+fi
+
+# settings.json
+# - AutoSave off --> impossible to use livepush without this
+# - /bin/bash default --> for autocompletion
+json_create_file_if_not_exist "$USER_SETTINGS_FILE"
+json_add_key_if_not_exist "$USER_SETTINGS_FILE" "files.autoSave" "off"
+json_add_key_if_not_exist "$USER_SETTINGS_FILE" "terminal.integrated.shell.linux" "/bin/bash"
 
 # Start code-server
-code-server "$CODE_WORKSPACE" \
+code-server "$CODE_WORKSPACE_PATH" \
   --auth none \
   --bind-addr 0.0.0.0:8080 \
   --disable-telemetry \
-  --user-data-dir "$CODE_SETTINGS"
+  --user-data-dir "$CODE_SETTINGS_PATH"
