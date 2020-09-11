@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-run
 WORKDIR /usr/src
 
 ARG BALENA_CLI_VERSION=12.20.0
