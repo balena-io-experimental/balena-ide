@@ -1,0 +1,15 @@
+version: 2.1
+
+volumes:
+  projects:
+  settings:
+
+services:
+
+  code:
+    build: ./code
+    ports:
+      - 8080:8080
+    volumes:
+      - projects:/usr/src/projects
+      - settings:/usr/src/settings
