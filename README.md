@@ -1,20 +1,44 @@
 # balena-ide
 
-Turn your balenaOS device into a development machine.
+Turn your balenaOS device into a fully featured development machine.
 
 Features:
-- `code-server`, the open source core of VS Code running in your browser
-- `balena-cli`, deploy and manage your devices
-- Other development tools: `git`
+- `code-server`: access VS Code in your browser
+- `balena-cli`: deploy and manage your devices from the comforts of the IDE's terminal
+- `git`: easy integration with GitHub/GitLab
 
-**Note**: Currently only works on Intel NUC devices.
 
+## Usage and configuration
+
+Once deployed to your device, the IDE can be accessed by visiting `http://<DEVICE_IP>:8080`.
+
+### VS Code settings
+
+[code-server](https://github.com/cdr/code-server) runs the open source core of VS Code and allows you to access it in the browser. The main difference with VS Code is the extensions marketplace (read more [here](https://github.com/cdr/code-server/blob/v3.5.0/doc/FAQ.md#differences-compared-to-vs-code)). `code-server` runs it's own open source marketplace where you can find almost all VS Code extensions, and even [request](https://github.com/cdr/code-server/blob/v3.5.0/doc/FAQ.md#how-can-i-request-a-missing-extension) missing ones. 
+
+You can reuse your VS Code settings (settings, keybinds and extensions) by providing a link to a gist with your settings backup. The gist can be generated with the popular [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync) extension. Note that this extension works in `code-server` but it will error out if there are other extensions that are not available. Use `GIST_SETTINGS_PATH` to set the URL to the gist backup.
+
+### Git
+
+Git can be configured for you if you provide your email and name. The startup script will configure git to use your information and generate an SSH key pair. The public key will be printed in the console so you can add it to your GitHub/GitLab account. Use `GIT_USER_NAME` and `GIT_USER_EMAIL` to configure your account.
+
+### Balena
+
+Balena CLI can also be preconfigured with an access token. Use `CLI_TOKEN` to provide a balena access token. Note that web authentication currently doesn't work so this is the next best alternative.
+
+
+## Supported platforms
+
+Currently this project only runs in x86 based systems, we recommend using an Intel NUC or the UP Board.
 
 ## Environment variables
 | Variable | Description | Default |
 | ------ | ------ | ------ |
 | CODE_WORKSPACE_PATH | Path to the default IDE workspace | `/usr/src/projects` |
 | CODE_SETTINGS_PATH | Path to the IDE settings directory | `/usr/src/settings` |
-| CODE_SETTINGS_GIST | URL to a VSCode settings backup in gist format. Currently will sync keybindings and editor settings. TODO: Extensions and snippets.<br>Can be generated with [`Settings Sync`](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).  | --- |
+| GIST_SETTINGS_PATH | URL to a VSCode settings backup in gist format. <br>Can be generated with [`Settings Sync`](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).  | --- |
+| GIT_USER_NAME | Git user name as seen in `git config user.name`  | --- |
+| GIT_USER_EMAIL | Git user name as seen in `git config user.email`  | --- |
+| CLI_TOKEN | Balena CLI [access token](https://www.balena.io/docs/learn/manage/account/#access-tokens) | --- |
 
 

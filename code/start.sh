@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PS1="\[\e[32m\][\[\e[m\]\[\e[31m\]\u\[\e[m\]\[\e[33m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]\[\e[32;47m\]\\$\[\e[m\] "
+
 # JSON helpers
 function json_add_key_if_not_exist() {
   local FILE="$1"
@@ -20,11 +22,35 @@ function json_create_file_if_not_exist() {
   fi
 }
 
+# Environment variables
 CODE_WORKSPACE_PATH=${CODE_WORKSPACE_PATH:-"/usr/src/projects"}
 CODE_SETTINGS_PATH=${CODE_SETTINGS_PATH:-"/usr/src/settings"}
+
+# Paths
 USER_SETTINGS_PATH="$CODE_SETTINGS_PATH/User"
 GIST_SETTINGS_PATH="$CODE_SETTINGS_PATH/gist"
 USER_SETTINGS_FILE="$USER_SETTINGS_PATH/settings.json"
+SSH_KEY=~/.ssh/id_rsa
+
+# Configure git
+if [[ -n "$GIT_USER_EMAIL" && -n "$GIT_USER_NAME" ]]; then
+  git config --global user.email "$GIT_USER_EMAIL"
+  git config --global user.name "$GIT_USER_NAME"
+  if [[ ! -f "$SSH_KEY" ]]; then
+    echo "Generating SSH key..."
+    ssh-keygen -t rsa -b 4096 -C "$GIT_USER_EMAIL" -N "" -f "$SSH_KEY"
+  fi
+  echo -e "\nSSH public key, add this to your GitHub/GitLab profile:\n"
+  cat "$SSH_KEY.pub"
+  echo -e "\n"
+else
+  echo "Skipping git configuration..."
+fi
+
+# Configure balena CLI
+if [[ -n "$CLI_TOKEN" ]]; then
+  balena login --token "$CLI_TOKEN"
+fi
 
 # Create settings directory
 mkdir -p "$USER_SETTINGS_PATH"

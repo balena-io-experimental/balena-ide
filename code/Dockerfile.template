@@ -2,7 +2,11 @@ FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-run
 WORKDIR /usr/src
 
 ARG BALENA_CLI_VERSION=12.20.0
-RUN install_packages unzip git jq
+RUN install_packages \
+        git \
+        jq \
+        openssh-client \
+        unzip
 
 # Install code-server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
