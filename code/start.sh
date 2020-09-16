@@ -82,9 +82,15 @@ json_add_key_if_not_exist "$SETTINGS_FILE" "files.autoSave" "off"
 json_add_key_if_not_exist "$SETTINGS_FILE" "terminal.integrated.shell.linux" "/bin/bash"
 json_add_key_if_not_exist "$SETTINGS_FILE" "keyboard.dispatch" "keyCode"
 
+if [[ -z ${PORT+x} ]]
+  then
+    export PORT="8080"
+    echo "Using default port: 8080"
+fi
+
 # Start code-server
 exec code-server "$WORKSPACE_PATH" \
   --auth none \
-  --bind-addr 0.0.0.0:8080 \
+  --bind-addr 0.0.0.0:"$PORT" \
   --disable-telemetry \
   --user-data-dir "$SETTINGS_PATH"
