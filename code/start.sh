@@ -88,9 +88,18 @@ if [[ -z ${PORT+x} ]]
     echo "Using default port: 8080"
 fi
 
+if [[ -z "$PASSWORD" ]]; 
+  then
+    export AUTH='--auth none'
+    echo "Disabling authorisation"
+else
+  echo "Using the PASSWORD variable for authorisation"
+fi
+
+
 # Start code-server
 exec code-server "$WORKSPACE_PATH" \
-  --auth none \
+  $AUTH \
   --bind-addr 0.0.0.0:"$PORT" \
   --disable-telemetry \
   --user-data-dir "$SETTINGS_PATH"
