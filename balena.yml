@@ -1,0 +1,6 @@
+applicationEnvironmentVariables:
+  - CODE_WORKSPACE_PATH: "/usr/src/projects"
+  - CODE_SETTINGS_PATH: "/usr/src/settings"
+  - GIT_USER_NAME: "CHANGE-ME"
+  - GIT_USER_EMAIL: "CHANGE-ME"
+  - CLI_TOKEN: "CHANGE-ME"
