@@ -18,10 +18,11 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 COPY bin/balena.sh /usr/bin/balena
 RUN chmod +x /usr/bin/balena
 RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-x64-standalone.zip && \
-    unzip balena-cli-*-linux-x64-standalone.zip -d /opt
+    unzip balena-cli-*-linux-x64-standalone.zip -d /opt && \
+    rm balena-cli-*-linux-x64-standalone.zip
 
-COPY . .
+COPY . ./ide
 
-CMD [ "/bin/bash", "/usr/src/start.sh" ]
+CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
 
 

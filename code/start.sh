@@ -22,14 +22,14 @@ function json_create_file_if_not_exist() {
 
 # Paths
 WORKSPACE_PATH=${WORKSPACE_PATH:-"/usr/src/projects"}
-SETTINGS_PATH=${SETTINGS_PATH:-"~/"}
+SETTINGS_PATH=${SETTINGS_PATH:-"/root/.code-server"}
 USER_PATH="$SETTINGS_PATH/User"
 GIST_PATH="$SETTINGS_PATH/gist"
 
 # Files
 SETTINGS_FILE="$USER_PATH/settings.json"
-SSH_PRIVATE_KEY=~/.ssh/id_rsa
-SSH_PUBLIC_KEY=~/.ssh/id_rsa.pub
+SSH_PRIVATE_KEY="/root/.ssh/id_rsa"
+SSH_PUBLIC_KEY="/root/.ssh/id_rsa.pub"
 
 # Configure git
 if [[ -n "$GIT_USER_EMAIL" && -n "$GIT_USER_NAME" ]]; then
