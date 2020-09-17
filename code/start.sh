@@ -82,20 +82,17 @@ json_add_key_if_not_exist "$SETTINGS_FILE" "files.autoSave" "off"
 json_add_key_if_not_exist "$SETTINGS_FILE" "terminal.integrated.shell.linux" "/bin/bash"
 json_add_key_if_not_exist "$SETTINGS_FILE" "keyboard.dispatch" "keyCode"
 
-if [[ -z ${PORT+x} ]]
-  then
-    export PORT="8080"
-    echo "Using default port: 8080"
+if [[ -z ${PORT+x} ]]; then
+  export PORT="80"
+  echo "Using default port: 80"
 fi
 
-if [[ -z "$PASSWORD" ]]; 
-  then
-    export AUTH='--auth none'
-    echo "Disabling authorisation"
+if [[ -z "$PASSWORD" ]]; then
+  export AUTH='--auth none'
+  echo "Disabling authorisation"
 else
   echo "Using the PASSWORD variable for authorisation"
 fi
-
 
 # Start code-server
 exec code-server "$WORKSPACE_PATH" \
