@@ -39,6 +39,8 @@ Currently this project only runs in x86 based systems, we recommend using an Int
 | ------ | ------ | ------ |
 | WORKSPACE_PATH | Path to the default IDE workspace | `/usr/src/projects` |
 | SETTINGS_PATH | Path to the IDE settings directory | `/root` |
+| PORT          | Set the port the IDE runs over. Remember to also map the port correctly in your `docker-compose.yml` file as well.| '80' |
+| PASSWORD | To enable authentication and set the password to use the IDE | auth disabled |
 | SETTINGS_GIST | URL to a VSCode settings backup in gist format. <br>Can be generated with [`Settings Sync`](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).  | --- |
 | GIT_USER_NAME | Git user name as seen in `git config user.name`  | --- |
 | GIT_USER_EMAIL | Git user name as seen in `git config user.email`  | --- |
