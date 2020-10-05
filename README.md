@@ -7,14 +7,24 @@ Features:
 - `balena-cli`: deploy and manage your devices from the comforts of the IDE's terminal
 - `git`: easy integration with GitHub/GitLab
 
+## Installation
 
-## Usage and configuration
+### Deploy as an application to balenaCloud
 
 You can deploy this project to a new balenaCloud application in one click using the button below:
 [![](https://balena.io/deploy.png)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/balena-io-playground/balena-ide)
 
-Once deployed to your device, the IDE can be accessed by visiting `http://<DEVICE_IP>:8080`.
+Once deployed to your device, the IDE can be accessed by visiting `http://<DEVICE_IP>:80`.
 
+### Deploy as a system service
+
+Run the following script in the hostOS to install the IDE as a system service:
+
+```bash
+curl --silent https://raw.githubusercontent.com/balena-io-playground/balena-ide/master/service/install.sh | sh
+```
+
+## Configuration
 ### VS Code settings
 
 [code-server](https://github.com/cdr/code-server) runs the open source core of VS Code and allows you to access it in the browser. The main difference with VS Code is the extensions marketplace (read more [here](https://github.com/cdr/code-server/blob/v3.5.0/doc/FAQ.md#differences-compared-to-vs-code)). `code-server` runs it's own open source marketplace where you can find almost all VS Code extensions, and even [request](https://github.com/cdr/code-server/blob/v3.5.0/doc/FAQ.md#how-can-i-request-a-missing-extension) missing ones. 
