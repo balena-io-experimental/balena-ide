@@ -55,23 +55,3 @@ Currently this project only runs in x86 based systems, we recommend using an Int
 | GIT_USER_NAME | Git user name as seen in `git config user.name`  | --- |
 | GIT_USER_EMAIL | Git user name as seen in `git config user.email`  | --- |
 | CLI_TOKEN | Balena CLI [access token](https://www.balena.io/docs/learn/manage/account/#access-tokens) | --- |
-
-
-## meta-livepush
-
-You can livepush from a device to itself. The easiest way to do it currently:
-
-1. Push this repo as a release to your device
-2. Put device in local mode
-3. Find the `ide` docker image ID by running `balena image list`, should be the only one with `registry.balena-cloud.com` set as `REPOSITORY``
-4. Start the image with the following command (`-e` flags optional):
-
-```
-balena run -d -p 80:80 \
-  -v settings:/root \
-  -v projects:/usr/src/projects \
-  -e GIT_USER_NAME="Your name" \
-  -e GIT_USER_EMAIL="Your email" \
-  -e SETTINGS_GIST="URL" \
-  4ee7202a63da
-```
