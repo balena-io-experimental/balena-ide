@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -o errexit
+
+if [ "$(balena images -q $IDE_IMAGE 2> /dev/null)" = "" ]; then
+  exit 1
+fi

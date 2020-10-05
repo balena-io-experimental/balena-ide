@@ -1,0 +1,30 @@
+#!/bin/sh
+
+IMAGE="$IDE_IMAGE:$IDE_TAG"
+
+echo "-- Start balenaIDE ---"
+echo "Image: $IMAGE"
+
+# Download image if not present
+if [ "$(balena images -q $IMAGE 2> /dev/null)" = "" ]; then
+  echo "Pulling $IMAGE from Docker Hub..."
+  balena pull $IMAGE
+fi
+
+# Run IDE
+CONTAINER_RUNNING=$(balena container ls | grep balena_ide)
+
+if [[ -z "$CONTAINER_RUNNING" ]]; then
+  echo "Starting IDE..."
+  balena rm --force balena_ide || true
+  balena run \
+    --name balena_ide \
+    --publish 80:80 \
+    --restart=always \
+    -v settings:/root \
+    -v projects:/usr/src/projects \
+    "$IMAGE"
+else
+  echo "Attaching to running container..."
+  balena start --attach balena_ide
+fi

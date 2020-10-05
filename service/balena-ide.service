@@ -1,0 +1,19 @@
+[Unit]
+Description=Balena IDE
+Requires=resin-supervisor.service
+Wants=balena.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10s
+WatchdogSec=180
+SyslogIdentifier=balena-ide
+EnvironmentFile=/etc/balena-ide/ide.conf
+ExecStartPre=-/usr/bin/balena stop balena_ide
+ExecStartPre=/bin/systemctl is-active balena.service
+ExecStart=/usr/bin/healthdog --healthcheck=/usr/lib/balena-ide/balena-ide-healthcheck /usr/bin/start-balena-ide
+ExecStop=-/usr/bin/balena stop balena_ide
+
+[Install]
+WantedBy=multi-user.target
