@@ -47,9 +47,9 @@ else
 fi
 
 # Configure balena CLI
-if [[ -n "$CLI_TOKEN" ]]; then
-  balena login --token "$CLI_TOKEN"
-fi
+# if [[ -n "$CLI_TOKEN" ]]; then
+#   balena login --token "$CLI_TOKEN"
+# fi
 
 # Create settings directory
 mkdir -p "$USER_PATH"
