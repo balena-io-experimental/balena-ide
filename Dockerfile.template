@@ -1,27 +1,36 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-run
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:12-run AS base
 WORKDIR /usr/src
 
-ARG BALENA_CLI_VERSION=12.23.4
 RUN install_packages \
         git \
         jq \
         openssh-client \
-        unzip \
         avahi-daemon
 
 # Install code-server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
+FROM base AS deps
+
+RUN install_packages curl \
+                    python \
+                    g++ \
+                    make
+
+ARG BALENA_CLI_VERSION=12.23.4
 # Install balena-cli
+RUN npm install balena-cli@${BALENA_CLI_VERSION} --production --unsafe-perm
+# copy production node_modules aside
+RUN cp -R node_modules prod_node_modules
+
+FROM base
+# copy production node_modules
+COPY --from=deps /usr/src/prod_node_modules ./node_modules
 # Calling balena-cli from the code-server editor throws: "Pkg: FLAGS_MISMATCH"
 # See: https://github.com/vercel/pkg/issues/484
 # Fix is to unset NODE_OPTIONS env var
 COPY bin/balena.sh /usr/bin/balena
 RUN chmod +x /usr/bin/balena
-RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-x64-standalone.zip && \
-    unzip balena-cli-*-linux-x64-standalone.zip -d /opt && \
-    rm balena-cli-*-linux-x64-standalone.zip
-
 COPY . ./ide
 
 CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]

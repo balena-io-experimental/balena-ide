@@ -1,4 +1,4 @@
 #!/bin/bash
 
 unset NODE_OPTIONS
-/opt/balena-cli/balena "$@"
+/usr/src/node_modules/balena-cli/bin/balena "$@"
