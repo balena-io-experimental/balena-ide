@@ -20,6 +20,7 @@ if [[ -z "$CONTAINER_RUNNING" ]]; then
   balena run \
     --name balena_ide \
     --publish 80:80 \
+    --network=host \
     --restart=always \
     -v settings:/root \
     -v projects:/usr/src/projects \
