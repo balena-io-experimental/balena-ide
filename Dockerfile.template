@@ -32,9 +32,8 @@ RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BA
     rm balena-cli-*-linux-x64-standalone.zip
 
 COPY . ./ide
-
+COPY favicon.ico /usr/local/share/.config/yarn/global/node_modules/code-server/src/browser/media/favicon.ico
 COPY --from=vscode-extension /usr/src/balena-vscode-extension/balena-vscode.vsix ./ide
-RUN code-server --install-extension /usr/src/ide/balena-vscode.vsix --user-data-dir=/root/.code-server
 
 CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
 
