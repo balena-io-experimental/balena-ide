@@ -1,0 +1,34 @@
+FROM linuxserver/code-server:arm64v8-latest
+WORKDIR /usr/src
+
+ARG BALENA_CLI_VERSION=12.24.1
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git \
+        jq \
+        openssh-client \
+        unzip \
+        avahi-daemon
+
+# Install balena-cli
+# Calling balena-cli from the code-server editor throws: "Pkg: FLAGS_MISMATCH"
+# See: https://github.com/vercel/pkg/issues/484
+# Fix is to unset NODE_OPTIONS env var
+COPY bin/balena.sh /usr/bin/balena
+RUN chmod +x /usr/bin/balena
+RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz && \
+    tar xvzf balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz --directory /opt && \
+    rm balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz
+
+# Get balena VSCode extension
+# Break Docker cache by getting latest commit info.
+ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
+RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
+RUN cd balena-vscode-extension && \
+    npm install && \
+    npm run package && cd -
+
+COPY . ./ide
+
+CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
+
+

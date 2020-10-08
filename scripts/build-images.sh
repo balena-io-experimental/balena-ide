@@ -18,7 +18,7 @@ function build_and_push_image () {
   rm Dockerfile.$BALENA_MACHINE_NAME
 }
 
-function build_and_push_rpi3 () {
+function build_and_push_rpi () {
   local BALENA_MACHINE_NAME=$1
   local DOCKER_ARCH=$2
   echo "Building for $BALENA_MACHINE_NAME..."
@@ -34,4 +34,5 @@ if [[ $DIRNAME != './scripts' ]]; then
 fi
 
 build_and_push_image "intel-nuc" "linux/amd64"
-build_and_push_rpi3 "raspberrypi3" "linux/arm/v7"
+build_and_push_rpi "raspberrypi3" "linux/arm/v7"
+build_and_push_rpi "raspberrypi4-64" "linux/arm64"
