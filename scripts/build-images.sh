@@ -18,10 +18,20 @@ function build_and_push_image () {
   rm Dockerfile.$BALENA_MACHINE_NAME
 }
 
+function build_and_push_rpi3 () {
+  local BALENA_MACHINE_NAME=$1
+  local DOCKER_ARCH=$2
+  echo "Building for $BALENA_MACHINE_NAME..."
+  docker buildx build -t $DOCKERHUB_ORGANIZATION/$IMAGE_NAME:$BALENA_MACHINE_NAME --platform $DOCKER_ARCH --file Dockerfile.$BALENA_MACHINE_NAME .
+  
+  echo "Publishing..."
+  docker push $DOCKERHUB_ORGANIZATION/$IMAGE_NAME:$BALENA_MACHINE_NAME
+}
+
 DIRNAME=$(dirname $0)
 if [[ $DIRNAME != './scripts' ]]; then
   echo "Please run from project's root directory"
 fi
 
 build_and_push_image "intel-nuc" "linux/amd64"
-build_and_push_image $DOCKER_REPO "raspberrypi3" "linux/arm/v7"
+build_and_push_rpi3 "raspberrypi3" "linux/arm/v7"

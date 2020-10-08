@@ -23,6 +23,8 @@ RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BA
     rm balena-cli-*-linux-x64-standalone.zip
 
 # Get balena VSCode extension
+# Break Docker cache by getting latest commit info.
+ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
 RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
 RUN cd balena-vscode-extension && \
     npm install && \

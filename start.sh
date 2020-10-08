@@ -101,4 +101,5 @@ exec code-server "$WORKSPACE_PATH" \
   $AUTH \
   --bind-addr 0.0.0.0:"$PORT" \
   --disable-telemetry \
+  --verbose \
   --user-data-dir "$SETTINGS_PATH"

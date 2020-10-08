@@ -1,7 +1,7 @@
 #!/bin/sh
 
 IMAGE="$IDE_IMAGE:$IDE_TAG"
-
+IDE_TAG=$(cat /mnt/boot/device-type.json | jq -r .slug)
 echo "-- Start balenaIDE ---"
 echo "Image: $IMAGE"
 
