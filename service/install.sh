@@ -17,6 +17,5 @@ curl --silent "$REPO_URL/master/service/ide.conf" --output /etc/balena-ide/ide.c
 chmod +x /usr/bin/start-balena-ide
 chmod +x /usr/lib/balena-ide/balena-ide-healthcheck
 
-# Enable service and reboot
+# Enable service
 systemctl enable balena-ide
-reboot
