@@ -7,7 +7,7 @@ volumes:
 services:
 
   code:
-    build: ./code
+    build: .
     ports:
       - 80:80
     volumes:

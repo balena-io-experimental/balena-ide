@@ -24,3 +24,4 @@ if [[ $DIRNAME != './scripts' ]]; then
 fi
 
 build_and_push_image "intel-nuc" "linux/amd64"
+build_and_push_image $DOCKER_REPO "raspberrypi3" "linux/arm/v7"
