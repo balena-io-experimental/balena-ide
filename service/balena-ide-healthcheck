@@ -2,6 +2,6 @@
 
 set -o errexit
 
-if [ "$(balena images -q $IDE_IMAGE 2> /dev/null)" = "" ]; then
-  exit 1
+if [ ! "$(curl -s -o /dev/null -w "%{http_code}" http://localhost)" == "200" ]; then
+  echo "asdasd"
 fi
