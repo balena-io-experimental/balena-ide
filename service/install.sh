@@ -6,8 +6,8 @@ REPO_URL="https://raw.githubusercontent.com/balena-io-playground/balena-ide"
 mount -o remount,rw /
 
 # Grab service files
-mkdir /etc/balena-ide
-mkdir /usr/lib/balena-ide
+mkdir -p /etc/balena-ide
+mkdir -p /usr/lib/balena-ide
 
 curl --silent "$REPO_URL/master/service/balena-ide-healthcheck" --output /usr/lib/balena-ide/balena-ide-healthcheck
 curl --silent "$REPO_URL/master/service/balena-ide.service" --output /lib/systemd/system/balena-ide.service

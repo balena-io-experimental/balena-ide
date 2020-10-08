@@ -34,5 +34,5 @@ if [[ $DIRNAME != './scripts' ]]; then
 fi
 
 build_and_push_image "intel-nuc" "linux/amd64"
-build_and_push_rpi "raspberrypi3" "linux/arm/v7"
-build_and_push_rpi "raspberrypi4-64" "linux/arm64"
+# build_and_push_rpi "raspberrypi3" "linux/arm/v7"
+# build_and_push_rpi "raspberrypi4-64" "linux/arm64"

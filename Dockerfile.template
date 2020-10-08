@@ -1,16 +1,25 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-run
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-build as vscode-extension
+WORKDIR /usr/src
+
+# Get balena VSCode extension
+# Break Docker cache by getting latest commit info.
+ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
+RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
+RUN cd balena-vscode-extension && \
+    npm install && \
+    npm run package && cd -
+
+
+FROM linuxserver/code-server:amd64-latest as vscode
 WORKDIR /usr/src
 
 ARG BALENA_CLI_VERSION=12.23.4
-RUN install_packages \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        avahi-daemon \
         git \
         jq \
         openssh-client \
-        unzip \
-        avahi-daemon
-
-# Install code-server
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+        unzip
 
 # Install balena-cli
 # Calling balena-cli from the code-server editor throws: "Pkg: FLAGS_MISMATCH"
@@ -22,15 +31,10 @@ RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BA
     unzip balena-cli-*-linux-x64-standalone.zip -d /opt && \
     rm balena-cli-*-linux-x64-standalone.zip
 
-# Get balena VSCode extension
-# Break Docker cache by getting latest commit info.
-ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
-RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
-RUN cd balena-vscode-extension && \
-    npm install && \
-    npm run package && cd -
-
 COPY . ./ide
+
+COPY --from=vscode-extension /usr/src/balena-vscode-extension/balena-vscode.vsix ./ide
+RUN code-server --install-extension /usr/src/ide/balena-vscode.vsix --user-data-dir=/root/.code-server
 
 CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
 

@@ -20,9 +20,11 @@ function json_create_file_if_not_exist() {
   fi
 }
 
-# Paths
+# Environment variables
 WORKSPACE_PATH=${WORKSPACE_PATH:-"/usr/src/projects"}
-SETTINGS_PATH=${SETTINGS_PATH:-"/root/.code-server"}
+
+# Paths
+SETTINGS_PATH="/root/.code-server"
 USER_PATH="$SETTINGS_PATH/User"
 GIST_PATH="$SETTINGS_PATH/gist"
 
@@ -93,8 +95,6 @@ if [[ -z "$PASSWORD" ]]; then
 else
   echo "Using the PASSWORD variable for authorisation"
 fi
-
-code-server --install-extension /usr/src/balena-vscode-extension/balena-vscode-0.0.1.vsix --user-data-dir=/root/.code-server
 
 # Start code-server
 exec code-server "$WORKSPACE_PATH" \
