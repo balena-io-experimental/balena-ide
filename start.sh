@@ -94,6 +94,8 @@ else
   echo "Using the PASSWORD variable for authorisation"
 fi
 
+code-server --install-extension /usr/src/balena-vscode-extension/balena-vscode-0.0.1.vsix --user-data-dir=/root/.code-server
+
 # Start code-server
 exec code-server "$WORKSPACE_PATH" \
   $AUTH \

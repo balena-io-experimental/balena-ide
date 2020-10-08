@@ -19,6 +19,12 @@ RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_
     tar xvzf balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz --directory /opt && \
     rm balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz
 
+RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
+RUN npm install -g vsce
+RUN cd balena-vscode-extension && \
+    npm install && \
+    vsce package --yarn && cd -
+
 COPY . ./ide
 
 CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
