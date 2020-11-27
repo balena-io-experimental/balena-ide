@@ -12,7 +12,7 @@ Features:
 ### Deploy as an application to balenaCloud
 
 You can deploy this project to a new balenaCloud application in one click using the button below:
-[![](https://balena.io/deploy.png)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/balena-io-playground/balena-ide)
+[![](https://balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/balena-io-playground/balena-ide)
 
 Once deployed to your device, the IDE can be accessed by visiting `http://<DEVICE_IP>:80`.
 
