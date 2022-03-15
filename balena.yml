@@ -1,8 +1,11 @@
-defaultDeviceType: 'intel-nuc'
-applicationEnvironmentVariables:
-  - PORT: "80"
-  - WORKSPACE_PATH: "/usr/src/projects"
-  - SETTINGS_PATH: "/root/.code-server"
-  - GIT_USER_NAME: ""
-  - GIT_USER_EMAIL: ""
-  - CLI_TOKEN: ""
+name: balenaIde
+type: sw.application
+data:
+  defaultDeviceType: 'intel-nuc'
+  applicationEnvironmentVariables:
+    - PORT: "80"
+    - WORKSPACE_PATH: "/usr/src/projects"
+    - SETTINGS_PATH: "/root/.code-server"
+    - GIT_USER_NAME: ""
+    - GIT_USER_EMAIL: ""
+    - CLI_TOKEN: ""
