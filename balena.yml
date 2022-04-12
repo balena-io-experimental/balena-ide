@@ -19,11 +19,11 @@ data:
     - GIT_USER_NAME: ""
     - GIT_USER_EMAIL: ""
     - CLI_TOKEN: ""
-    defaultDeviceType: intel-nuc
-    supportedDeviceTypes:
-      - raspberrypi3
-      - raspberrypi4-64
-      - fincm3
-      - intel-nuc
+  defaultDeviceType: intel-nuc
+  supportedDeviceTypes:
+    - raspberrypi3
+    - raspberrypi4-64
+    - fincm3
+    - intel-nuc
 
 
