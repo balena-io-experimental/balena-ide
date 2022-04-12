@@ -11,7 +11,6 @@ assets:
       url: >-
         https://raw.githubusercontent.com/balenalabs/balena-ide/master/logo.png
 data:
-  defaultDeviceType: 'intel-nuc'
   applicationEnvironmentVariables:
     - PORT: "80"
     - WORKSPACE_PATH: "/usr/src/projects"
