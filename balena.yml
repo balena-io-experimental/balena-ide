@@ -1,3 +1,16 @@
+name: balenaIDE
+type: sw.application
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/balenalabs/balena-ide'
+  logo:
+    type: blob.asset
+    data:
+      url: >-
+        https://raw.githubusercontent.com/balenalabs/balena-ide/master/logo.png
+data:
 defaultDeviceType: 'intel-nuc'
 applicationEnvironmentVariables:
   - PORT: "80"
@@ -6,3 +19,11 @@ applicationEnvironmentVariables:
   - GIT_USER_NAME: ""
   - GIT_USER_EMAIL: ""
   - CLI_TOKEN: ""
+  defaultDeviceType: intel-nuc
+  supportedDeviceTypes:
+    - raspberrypi3
+    - raspberrypi4-64
+    - fincm3
+    - intel-nuc
+
+
