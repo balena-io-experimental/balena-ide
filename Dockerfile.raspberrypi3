@@ -9,7 +9,7 @@ RUN cd balena-vscode-extension && \
     npm install && \
     npm run package && cd -
 
-FROM linuxserver/code-server:arm32v7-latest as vscode
+FROM linuxserver/code-server:arm32v7-version-4.4.0 as vscode
 WORKDIR /usr/src
 
 ARG BALENA_CLI_VERSION=12.24.1
