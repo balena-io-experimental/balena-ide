@@ -3,7 +3,7 @@ WORKDIR /usr/src
 
 # Get balena VSCode extension
 # Break Docker cache by getting latest commit info.
-ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
+RUN curl -o cache-breaker.json https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits
 RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
 RUN cd balena-vscode-extension && \
     npm install && \
@@ -32,7 +32,7 @@ RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_
 
 # Get balena VSCode extension
 # Break Docker cache by getting latest commit info.
-ADD https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits cache-breaker.json
+RUN curl -o cache-breaker.json https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits
 RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
 RUN cd balena-vscode-extension && \
     npm install && \

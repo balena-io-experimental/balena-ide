@@ -1,6 +1,7 @@
 node_modules
 Dockerfile.*
 !Dockerfile.raspberrypi4-64
+!Dockerfile.fincm3
 !Dockerfile.raspberrypi3
 !Dockerfile.template
 *.vsix

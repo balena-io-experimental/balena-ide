@@ -1,4 +1,6 @@
-FROM balenalib/raspberrypi4-64-debian-node:14-build as vscode-extension
+FROM balenalib/fincm3-debian-node:14-build as vscode-extension
+# fincm3 is documented as armv7hf on https://www.balena.io/docs/reference/base-images/devicetypes/ 
+# but doing a balena scan reports  Architecture:      armv7l  ¯\_(ツ)_/ ¯
 WORKDIR /usr/src
 
 # Get balena VSCode extension
@@ -9,7 +11,7 @@ RUN cd balena-vscode-extension && \
     npm install && \
     npm run package && cd -
 
-FROM linuxserver/code-server:arm64v8-latest
+FROM linuxserver/code-server:arm32v7-version-4.4.0 as vscode
 WORKDIR /usr/src
 
 ARG BALENA_CLI_VERSION=12.24.1
@@ -30,18 +32,18 @@ RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_
     tar xvzf balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz --directory /opt && \
     rm balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz
 
-# Get balena VSCode extension
-# Break Docker cache by getting latest commit info.
-RUN curl -o cache-breaker.json https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits
-RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
-RUN cd balena-vscode-extension && \
-    npm install && \
-    npm run package && cd -
+# # Get balena VSCode extension
+# # Break Docker cache by getting latest commit info.
+# RUN curl -o cache-breaker.json https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits
+# RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
+# RUN cd balena-vscode-extension && \
+#     npm install && \
+#     npm run package && cd -
+# COPY . ./ide
 
-COPY . ./ide
 COPY favicon.ico /usr/local/share/.config/yarn/global/node_modules/code-server/src/browser/media/favicon.ico
 COPY --from=vscode-extension /usr/src/balena-vscode-extension/balena-vscode.vsix ./ide
 
-CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
+# CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
 
 
