@@ -1,6 +1,4 @@
 FROM balenalib/fincm3-debian-node:14-build as vscode-extension
-# fincm3 is documented as armv7hf on https://www.balena.io/docs/reference/base-images/devicetypes/ 
-# but doing a balena scan reports  Architecture:      armv7l  ¯\_(ツ)_/ ¯
 WORKDIR /usr/src
 
 # Get balena VSCode extension
