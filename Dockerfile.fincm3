@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:14-build as vscode-extension
+FROM balenalib/fincm3-debian-node:14-build as vscode-extension
 WORKDIR /usr/src
 
 # Get balena VSCode extension
@@ -9,17 +9,16 @@ RUN cd balena-vscode-extension && \
     npm install && \
     npm run package && cd -
 
-
-FROM linuxserver/code-server:amd64-latest as vscode
+FROM linuxserver/code-server:arm32v7-version-4.4.0 as vscode
 WORKDIR /usr/src
 
-ARG BALENA_CLI_VERSION=12.23.4
+ARG BALENA_CLI_VERSION=12.24.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        avahi-daemon \
         git \
         jq \
         openssh-client \
-        unzip
+        unzip \
+        avahi-daemon
 
 # Install balena-cli
 # Calling balena-cli from the code-server editor throws: "Pkg: FLAGS_MISMATCH"
@@ -27,14 +26,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Fix is to unset NODE_OPTIONS env var
 COPY bin/balena.sh /usr/bin/balena
 RUN chmod +x /usr/bin/balena
-RUN curl -O -sSL https://github.com/balena-io/balena-cli/releases/download/v${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-x64-standalone.zip && \
-    unzip balena-cli-*-linux-x64-standalone.zip -d /opt && \
-    rm balena-cli-*-linux-x64-standalone.zip
+RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_VERSION}/balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz && \
+    tar xvzf balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz --directory /opt && \
+    rm balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz
 
-COPY . ./ide
 COPY favicon.ico /usr/local/share/.config/yarn/global/node_modules/code-server/src/browser/media/favicon.ico
 COPY --from=vscode-extension /usr/src/balena-vscode-extension/balena-vscode.vsix ./ide
 
-CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
 
 
