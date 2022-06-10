@@ -30,18 +30,7 @@ RUN curl -O -sSL https://github.com/pdcastro/tmp/releases/download/${BALENA_CLI_
     tar xvzf balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz --directory /opt && \
     rm balena-cli-v${BALENA_CLI_VERSION}-linux-armv7-standalone.tgz
 
-# Get balena VSCode extension
-# Break Docker cache by getting latest commit info.
-RUN curl -o cache-breaker.json https://api.github.com/repos/balena-io-playground/balena-vscode-extension/commits
-RUN git clone https://github.com/balena-io-playground/balena-vscode-extension.git
-RUN cd balena-vscode-extension && \
-    npm install && \
-    npm run package && cd -
-
 COPY . ./ide
 COPY favicon.ico /usr/local/share/.config/yarn/global/node_modules/code-server/src/browser/media/favicon.ico
 COPY --from=vscode-extension /usr/src/balena-vscode-extension/balena-vscode.vsix ./ide
-
-CMD [ "/bin/bash", "/usr/src/ide/start.sh" ]
-
 
